@@ -4,7 +4,7 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use crossterm::cursor::{Hide, Show};
-use crossterm::event::{self, Event, KeyCode, KeyModifiers};
+use crossterm::event::{self, Event, KeyCode, KeyEventKind, KeyModifiers};
 use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use crossterm::execute;
 use rand::Rng;
@@ -463,7 +463,7 @@ fn apply_command(
 
     match cmd {
         "help" => Some(
-            "Commands: help, style, color, program, p, pause, resume, clear, quit"
+            "help, style, color, program, p, pause, resume, clear, quit"
                 .to_string(),
         ),
         "clear" => Some(String::new()),
@@ -691,6 +691,10 @@ fn run(stdout: &mut Stdout) -> io::Result<()> {
     loop {
         while event::poll(Duration::from_millis(0))? {
             if let Event::Key(key) = event::read()? {
+                if key.kind == KeyEventKind::Release {
+                    continue;
+                }
+
                 match key.code {
                     KeyCode::Esc => {
                         should_exit = true;
@@ -698,7 +702,7 @@ fn run(stdout: &mut Stdout) -> io::Result<()> {
                     KeyCode::Char('c') if key.modifiers.contains(KeyModifiers::CONTROL) => {
                         should_exit = true;
                     }
-                    KeyCode::Backspace => {
+                    KeyCode::Backspace | KeyCode::Char('\u{8}' | '\u{7f}') => {
                         command_input.pop();
                     }
                     KeyCode::Enter => {
