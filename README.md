@@ -14,9 +14,9 @@ Matrix-style terminal rain with live system metrics, written in Rust.
 
 ## Screenshots
 
-![fabric screenshot 1](Screenshot%202026-03-23%20105229.png)
-![fabric screenshot 2](Screenshot%202026-03-23%20105303.png)
-![fabric screenshot 3](Screenshot%202026-03-23%20105429.png)
+![fabric screenshot 1](screenshot-1.png)
+![fabric screenshot 2](screenshot-2.png)
+![fabric screenshot 3](screenshot-3.png)
 
 ## Platform
 
