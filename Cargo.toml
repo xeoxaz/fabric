@@ -1,0 +1,15 @@
+[package]
+name = "fabric"
+version = "0.1.0"
+edition = "2024"
+authors = ["Xeoxaz <Xeoxaz@outlook.com>"]
+
+[dependencies]
+crossterm = "0.29"
+rand = "0.9"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+panic = "abort"
+strip = "symbols"
