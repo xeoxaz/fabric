@@ -76,6 +76,16 @@ program=rain
 yay -S xeo-fabric
 ```
 
+If install fails on a fresh system with an error like:
+
+```text
+error: no matching package named 'rand' found
+```
+
+that usually means the AUR recipe is building with `cargo --frozen` before crates are fetched.
+For maintainers, run `cargo fetch --locked` in `prepare()` and then keep `--frozen` in
+`build()` and `check()` (see `packaging/aur/PKGBUILD` in this repo).
+
 ### From source
 
 ```bash
@@ -88,3 +98,14 @@ cargo build --release
 ## License
 
 MIT. See LICENSE.
+
+## Packaging
+
+This repository includes AUR packaging templates for `xeo-fabric` in:
+
+- `packaging/aur/PKGBUILD`
+- `packaging/aur/.SRCINFO`
+
+The template uses a `prepare()` step with `cargo fetch --locked` and a shared
+`CARGO_HOME` under `$srcdir` so installs work on fresh systems while preserving
+reproducible `--frozen` builds.
